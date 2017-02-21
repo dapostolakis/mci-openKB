@@ -158,5 +158,6 @@
 	"Access denied": "Access denied",
 	"User account inserted": "User account inserted",
 	"Directory successfully created": "Directory successfully created",
-	"File uploaded successfully": "File uploaded successfully"
+	"File uploaded successfully": "File uploaded successfully",
+	"File upload error. Please select a file.": "File upload error. Please select a file."
 }

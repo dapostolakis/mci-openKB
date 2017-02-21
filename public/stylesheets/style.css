@@ -241,3 +241,9 @@ html{
     cursor: inherit;
     display: block;
 }
+
+
+.searchBar{
+    background-color: #0072af;
+    background-image:radial-gradient(farthest-side ellipse at 10% 0, #0072af 20%, #166b94);
+}
