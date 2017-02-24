@@ -255,6 +255,11 @@ $(document).ready(function(){
         // add responsive images and tables
         var fixed_html = html.replace(/<img/g, "<img class='img-responsive' ");
         fixed_html = fixed_html.replace(/<table/g, "<table class='table table-hover' ");
+
+        // handle parsing Latex
+        // fixed_html = handleLatexCode(fixed_html);
+
+
         $('#preview').html(fixed_html);
 
         // re-hightlight the preview
@@ -262,6 +267,57 @@ $(document).ready(function(){
             hljs.highlightBlock(block);
         });
     }
+
+    //region NEW CODE
+
+    function handleLatexCode(html){
+      if(html.indexOf('<latex>') != -1 && html.indexOf('</latex>') != -1){
+
+        var startLatexTagIdxs = indexesOf(html, /<latex>/g)['<latex>'];
+        var endLatexTagIdxs = indexesOf(html, /<\/latex>/g)['</latex>'];
+
+        var longestLength = (startLatexTagIdxs.length == endLatexTagIdxs.length) ?
+          startLatexTagIdxs.length : (startLatexTagIdxs.length > endLatexTagIdxs.length) ? startLatexTagIdxs.length : endLatexTagIdxs.length;
+
+        var latexBlocks = [];
+
+        //loop through latex findings
+        for(var i=0; i<longestLength; i++) {
+          var startIdx = startLatexTagIdxs[i];
+          var endIdx = endLatexTagIdxs[i];
+
+          var latexCode = html.substring(startIdx+7, endIdx);
+          latexBlocks.push(latexCode);
+        }
+
+        for(var i=0; i<latexBlocks.length; i++){
+          var latexBlock = latexBlocks[i];
+
+          console.log("LATEX CODE: ", latexBlock);
+        }
+
+        return html;
+      }
+
+      return html;
+    }
+
+    function indexesOf(string, regex) {
+      var match,
+        indexes = {};
+
+      regex = new RegExp(regex);
+
+      while (match = regex.exec(string)) {
+        if (!indexes[match[0]]) indexes[match[0]] = [];
+        indexes[match[0]].push(match.index);
+      }
+
+      return indexes;
+    }
+
+    //endregion NEW CODE
+
 
     // user up vote clicked
     $(document).on('click', '#btnUpvote', function(){
